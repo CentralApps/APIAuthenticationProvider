@@ -1,0 +1,47 @@
+<?php
+namespace CentralApps\Authentication\Providers;
+
+class APIProvider implements ProviderInterface
+{
+
+    protected $request;
+    protected $userFactory;
+    protected $userGateway;
+    protected $server;
+    
+    public function __construct(array $request, \CentralApps\Authentication\UserFactoryInterface $user_factory, \CentralApps\Authentication\UserGateway $user_gateway)
+    {
+        $this->request = $request;
+        $this->userFactory = $user_factory;
+        $this->userGateway = $user_gateway;
+        if(isset($this->request['server'])) {
+            $this->server = $this->request['server'];
+        }
+    }
+
+    
+    public function hasAttemptedToLoginWithProvider()
+    {
+        if(! $this->userFactory instanceof CentralApps\Authentication\APIUserFactoryInterface ) {
+            return false; // or should we throw an exception
+        }
+        if( isset($this->server['PHP_AUTH_USER']) && ! is_null($this->server['PHP_AUTH_USER']) && '' != $this->server['PHP_AUTH_USER'] && isset($this->server['PHP_AUTH_PW']) && ! is_null($this->server['PHP_AUTH_PW']) && '' != $this->server['PHP_AUTH_PW'] ) {
+            return true;
+        }
+        return false;
+    }
+    
+    
+    
+    public function processLoginAttempt()
+    {
+        try {
+            return $this->userFactory->getFromUserIdAndAPIKey($this->server['PHP_AUTH_USER'], $this->server['PHP_AUTH_PW']);
+        } catch( \Exception $e) {
+            return null;
+        }
+        
+    }
+    
+}
+
