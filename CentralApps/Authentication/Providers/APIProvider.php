@@ -8,6 +8,7 @@ class APIProvider implements ProviderInterface
     protected $userFactory;
     protected $userGateway;
     protected $server;
+    protected $persist = true;
     
     public function __construct(array $request, \CentralApps\Authentication\UserFactoryInterface $user_factory, \CentralApps\Authentication\UserGateway $user_gateway)
     {
@@ -36,7 +37,9 @@ class APIProvider implements ProviderInterface
     public function processLoginAttempt()
     {
         try {
-            return $this->userFactory->getFromUserIdAndAPIKey($this->server['PHP_AUTH_USER'], $this->server['PHP_AUTH_PW']);
+            $user = $this->userFactory->getFromUserIdAndAPIKey($this->server['PHP_AUTH_USER'], $this->server['PHP_AUTH_PW']);
+            $this->persist = false;
+            return $user;
         } catch( \Exception $e) {
             return null;
         }
@@ -51,6 +54,11 @@ class APIProvider implements ProviderInterface
     public function userWantsToBeRemembered()
     {
         return false;
+    }
+    
+    public function shouldPersist()
+    {
+        return $this->persist;
     }
     
 }

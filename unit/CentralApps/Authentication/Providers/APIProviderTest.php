@@ -62,4 +62,23 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_provider->userWantsToBeRemembered());
     }
+    
+    /**
+     * @covers CentralApps\Authentication\Providers\APIProvider::shouldPersist
+     */
+    public function testShouldPersist()
+    {
+        $this->assertTrue($this->_provider->shouldPersist());
+        $user = new \stdClass();
+        $user->userId = $this->request['server']['PHP_AUTH_USER'];
+        $user->username = 'test';
+        $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
+        $user_factory->expects($this->once())
+                     ->method('getFromUserIdAndAPIKey')
+                     ->with($this->equalTo($this->request['server']['PHP_AUTH_USER']), $this->request['server']['PHP_AUTH_PW'])
+                     ->will($this->returnValue($user));
+        $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
+        $this->assertEquals($user, $this->_provider->processLoginAttempt());
+        $this->assertFalse($this->_provider->shouldPersist());
+    }
 }
