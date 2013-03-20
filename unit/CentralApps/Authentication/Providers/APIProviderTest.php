@@ -25,7 +25,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_provider->hasAttemptedToLoginWithProvider());
         $this->_provider = new APIProvider(array(), $this->_userFactory, $this->_userGateway);
         $this->assertFalse($this->_provider->hasAttemptedToLoginWithProvider());
-        $user_factory = $this->getMock('\CentralApps\Authentication\UserFactoryInterface');
+        $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertFalse($this->_provider->hasAttemptedToLoginWithProvider());
         
@@ -36,7 +36,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $user = new \stdClass();
         $user->userId = $this->request['server']['PHP_AUTH_USER'];
         $user->username = 'test';
-        $user_factory = $this->getMock('\CentralApps\Authentication\UserFactoryInterface');
+        $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
         $user_factory->expects($this->once())
                      ->method('getFromUserIdAndAPIKey')
                      ->with($this->equalTo($this->request['server']['PHP_AUTH_USER']), $this->request['server']['PHP_AUTH_PW'])
@@ -44,7 +44,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertEquals($user, $this->_provider->processLoginAttempt());
         
-        $user_factory = $this->getMock('\CentralApps\Authentication\UserFactoryInterface');
+        $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
         $user_factory->expects($this->once())
                      ->method('getFromUserIdAndAPIKey')
                      ->with($this->equalTo($this->request['server']['PHP_AUTH_USER']), $this->request['server']['PHP_AUTH_PW'])
