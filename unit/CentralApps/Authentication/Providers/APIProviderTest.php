@@ -48,7 +48,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $user_factory->expects($this->once())
                      ->method('getFromUserIdAndAPIKey')
                      ->with($this->equalTo($this->request['server']['PHP_AUTH_USER']), $this->request['server']['PHP_AUTH_PW'])
-                     ->will($this->throwsException(new \Exception()));
+                     ->will($this->throwException(new \Exception()));
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertNull($this->_provider->hasAttemptedToLoginWithProvider());
     }
