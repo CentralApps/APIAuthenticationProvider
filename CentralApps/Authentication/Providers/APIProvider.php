@@ -43,5 +43,15 @@ class APIProvider implements ProviderInterface
         
     }
     
+    public function logout()
+    {
+        return true;
+    }
+    
+    public function userWantsToBeRemembered()
+    {
+        return false;
+    }
+    
 }
 

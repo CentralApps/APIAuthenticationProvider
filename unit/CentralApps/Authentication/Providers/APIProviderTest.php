@@ -52,4 +52,14 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertNull($this->_provider->hasAttemptedToLoginWithProvider());
     }
+
+    public function testLogout()
+    {
+        $this->assertTrue($this->_provider->logout());
+    }
+    
+    public function testUserWantsToBeRemembered()
+    {
+        $this->assertFalse($this->_provider->userWantsToBeRemembered());
+    }
 }
