@@ -13,7 +13,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $this->_userGateway = $this->getMock('\CentralApps\Authentication\UserGateway');
         
         $request = array();
-        $server = array( 'PHP_AUTH_USER' => 53, 'PHP_AUTH_PWD' => 'some-api-key');
+        $server = array( 'PHP_AUTH_USER' => 53, 'PHP_AUTH_PW' => 'some-api-key');
         $request['server'] = $server;
         $this->request = $request;
         
