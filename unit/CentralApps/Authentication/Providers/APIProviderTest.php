@@ -25,7 +25,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_provider->hasAttemptedToLoginWithProvider());
         $this->_provider = new APIProvider(array(), $this->_userFactory, $this->_userGateway);
         $this->assertFalse($this->_provider->hasAttemptedToLoginWithProvider());
-        $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
+        $user_factory = $this->getMock('\CentralApps\Authentication\UserFactoryInterface');
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertFalse($this->_provider->hasAttemptedToLoginWithProvider());
         
