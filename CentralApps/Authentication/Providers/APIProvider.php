@@ -22,7 +22,7 @@ class APIProvider implements ProviderInterface
     
     public function hasAttemptedToLoginWithProvider()
     {
-        if(! $this->userFactory instanceof CentralApps\Authentication\APIUserFactoryInterface ) {
+        if(! $this->userFactory instanceof \CentralApps\Authentication\APIUserFactoryInterface ) {
             return false; // or should we throw an exception
         }
         if( isset($this->server['PHP_AUTH_USER']) && ! is_null($this->server['PHP_AUTH_USER']) && '' != $this->server['PHP_AUTH_USER'] && isset($this->server['PHP_AUTH_PW']) && ! is_null($this->server['PHP_AUTH_PW']) && '' != $this->server['PHP_AUTH_PW'] ) {
