@@ -9,7 +9,7 @@ class APIProvider implements ProviderInterface
     protected $userGateway;
     protected $server;
     protected $persist = true;
-    
+
     public function __construct(array $request, \CentralApps\Authentication\UserFactoryInterface $user_factory, \CentralApps\Authentication\UserGateway $user_gateway)
     {
         $this->request = $request;
@@ -20,7 +20,7 @@ class APIProvider implements ProviderInterface
         }
     }
 
-    
+
     public function hasAttemptedToLoginWithProvider()
     {
         if(! $this->userFactory instanceof \CentralApps\Authentication\APIUserFactoryInterface ) {
@@ -31,9 +31,9 @@ class APIProvider implements ProviderInterface
         }
         return false;
     }
-    
-    
-    
+
+
+
     public function processLoginAttempt()
     {
         try {
@@ -43,23 +43,23 @@ class APIProvider implements ProviderInterface
         } catch( \Exception $e) {
             return null;
         }
-        
+
     }
-    
+
     public function logout()
     {
         return true;
     }
-    
+
     public function userWantsToBeRemembered()
     {
         return false;
     }
-    
+
     public function shouldPersist()
     {
         return $this->persist;
     }
-    
+
 }
 
