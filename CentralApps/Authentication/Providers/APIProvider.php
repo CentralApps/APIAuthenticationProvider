@@ -3,7 +3,6 @@ namespace CentralApps\Authentication\Providers;
 
 class APIProvider implements ProviderInterface
 {
-
     protected $request;
     protected $userFactory;
     protected $userGateway;
@@ -20,7 +19,6 @@ class APIProvider implements ProviderInterface
         }
     }
 
-
     public function hasAttemptedToLoginWithProvider()
     {
         if(! $this->userFactory instanceof \CentralApps\Authentication\APIUserFactoryInterface ) {
@@ -31,8 +29,6 @@ class APIProvider implements ProviderInterface
         }
         return false;
     }
-
-
 
     public function processLoginAttempt()
     {
@@ -62,4 +58,3 @@ class APIProvider implements ProviderInterface
     }
 
 }
-
