@@ -6,20 +6,20 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
     protected $_userFactory;
     protected $_userGateway;
     protected $_provider;
-    
+
     public function setUp()
     {
         $this->_userFactory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
         $this->_userGateway = $this->getMock('\CentralApps\Authentication\UserGateway');
-        
+
         $request = array();
         $server = array( 'PHP_AUTH_USER' => 53, 'PHP_AUTH_PW' => 'some-api-key');
         $request['server'] = $server;
         $this->request = $request;
-        
+
         $this->_provider = new APIProvider($request, $this->_userFactory, $this->_userGateway);
     }
-    
+
     public function testHasTriedToLoginWithAPICredentials()
     {
         $this->assertTrue($this->_provider->hasAttemptedToLoginWithProvider());
@@ -28,9 +28,9 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
         $user_factory = $this->getMock('\CentralApps\Authentication\UserFactoryInterface');
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertFalse($this->_provider->hasAttemptedToLoginWithProvider());
-        
+
     }
-    
+
     public function testLoggingInWithAPICredentials()
     {
         $user = new \stdClass();
@@ -43,7 +43,7 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
                      ->will($this->returnValue($user));
         $this->_provider = new APIProvider($this->request, $user_factory, $this->_userGateway);
         $this->assertEquals($user, $this->_provider->processLoginAttempt());
-        
+
         $user_factory = $this->getMock('\CentralApps\Authentication\APIUserFactoryInterface');
         $user_factory->expects($this->once())
                      ->method('getFromUserIdAndAPIKey')
@@ -57,12 +57,12 @@ class APIProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->_provider->logout());
     }
-    
+
     public function testUserWantsToBeRemembered()
     {
         $this->assertFalse($this->_provider->userWantsToBeRemembered());
     }
-    
+
     /**
      * @covers CentralApps\Authentication\Providers\APIProvider::shouldPersist
      */

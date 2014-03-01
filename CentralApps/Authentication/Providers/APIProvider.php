@@ -14,19 +14,20 @@ class APIProvider implements ProviderInterface
         $this->request = $request;
         $this->userFactory = $user_factory;
         $this->userGateway = $user_gateway;
-        if(isset($this->request['server'])) {
+        if (isset($this->request['server'])) {
             $this->server = $this->request['server'];
         }
     }
 
     public function hasAttemptedToLoginWithProvider()
     {
-        if(! $this->userFactory instanceof \CentralApps\Authentication\APIUserFactoryInterface ) {
+        if (!$this->userFactory instanceof \CentralApps\Authentication\APIUserFactoryInterface) {
             return false; // or should we throw an exception
         }
-        if( isset($this->server['PHP_AUTH_USER']) && ! is_null($this->server['PHP_AUTH_USER']) && '' != $this->server['PHP_AUTH_USER'] && isset($this->server['PHP_AUTH_PW']) && ! is_null($this->server['PHP_AUTH_PW']) && '' != $this->server['PHP_AUTH_PW'] ) {
+        if (isset($this->server['PHP_AUTH_USER']) && !is_null($this->server['PHP_AUTH_USER']) && '' != $this->server['PHP_AUTH_USER'] && isset($this->server['PHP_AUTH_PW']) && !is_null($this->server['PHP_AUTH_PW']) && '' != $this->server['PHP_AUTH_PW']) {
             return true;
         }
+
         return false;
     }
 
@@ -35,8 +36,9 @@ class APIProvider implements ProviderInterface
         try {
             $user = $this->userFactory->getFromUserIdAndAPIKey($this->server['PHP_AUTH_USER'], $this->server['PHP_AUTH_PW']);
             $this->persist = false;
+
             return $user;
-        } catch( \Exception $e) {
+        } catch(\Exception $e) {
             return null;
         }
 
@@ -56,5 +58,4 @@ class APIProvider implements ProviderInterface
     {
         return $this->persist;
     }
-
 }
